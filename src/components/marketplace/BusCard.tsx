@@ -65,7 +65,7 @@ export function BusCard({
   const displayTitle = `${manufactureYear} ${make} ${model}`;
 
   return (
-    <div className="group relative bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md hover:border-slate-300 transition-all flex flex-col h-full">
+    <div className="group relative bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full">
       {/* Image & Badges */}
       <div className="relative aspect-[16/10] bg-slate-100 overflow-hidden">
         {/* Placeholder / Image */}

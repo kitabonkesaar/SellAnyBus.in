@@ -4,13 +4,15 @@ import prisma from '@/modules/core/db';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { BusCard } from '@/components/marketplace/BusCard';
-import { CategoryIcon } from '@/components/brand/CategoryIcons';
-import { BusCategory, PublicationStatus } from '@prisma/client';
+import { HeroSearch } from '@/components/marketplace/HeroSearch';
+import { CategoryExplorer } from '@/components/marketplace/CategoryExplorer';
+import { InspectionExplorer } from '@/components/marketplace/InspectionExplorer';
+import { WhySellAnyBusComparison } from '@/components/marketplace/WhySellAnyBusComparison';
+import { QuickValuationTeaser } from '@/components/marketplace/QuickValuationTeaser';
+import { PublicationStatus } from '@prisma/client';
 import {
-  Search,
   ShieldCheck,
   CheckCircle2,
-  Wrench,
   Award,
   ArrowRight,
   ChevronRight,
@@ -23,94 +25,24 @@ import {
   Bus,
   Sparkles,
   MapPin,
+  Clock,
+  ThumbsUp,
 } from 'lucide-react';
 import { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'SellAnyBus.in | Verified Used Commercial Buses & Trucks in Odisha',
+  title: 'SellAnyBus.in | Odisha’s #1 Verified Used Commercial Bus & Truck Marketplace',
   description:
-    'Buy and sell verified used buses, trucks, and commercial vehicles in Odisha with 14-point mechanical inspection, RTO document checks, and seller-approved pricing across all 30 districts.',
+    'Buy and sell verified used buses, trucks, and commercial vehicles in Odisha. 14-point mechanical inspection, RTO document checks, and seller-approved pricing across all 30 districts.',
   openGraph: {
-    title: 'SellAnyBus.in - Odisha Verified Commercial Bus & Truck Marketplace',
+    title: 'SellAnyBus.in - Verified Commercial Buses & Trucks in Odisha',
     description: 'Verified AC Sleepers, Route Seaters, School Buses, Cargo Trucks, and Pickups in Odisha.',
     locale: 'en_IN',
     type: 'website',
   },
 };
-
-const BUS_CATEGORIES = [
-  {
-    key: 'AC_SLEEPER',
-    name: 'AC Sleeper Coach',
-    desc: 'Interstate multi-axle luxury sleepers with 2+1 berths',
-    count: '6 Available',
-  },
-  {
-    key: 'SEATER',
-    name: 'Express Route Seater',
-    desc: '32 to 55 seat stage carriage & express route buses',
-    count: '8 Available',
-  },
-  {
-    key: 'SCHOOL_BUS',
-    name: 'School & College Bus',
-    desc: 'Supreme Court guideline compliant student transit',
-    count: '4 Available',
-  },
-  {
-    key: 'STAFF_BUS',
-    name: 'Staff & Industrial Bus',
-    desc: 'Corporate & worker executive transport buses',
-    count: '3 Available',
-  },
-  {
-    key: 'TOURIST_COACH',
-    name: 'Luxury Tourist Coach',
-    desc: 'Air-suspended coaches with AITP national permits',
-    count: '4 Available',
-  },
-  {
-    key: 'MINI_BUS',
-    name: 'Mini Bus / Traveller',
-    desc: '17 to 26 seater commercial passenger vans',
-    count: '5 Available',
-  },
-];
-
-const TRUCK_CATEGORIES = [
-  {
-    key: 'TRUCK',
-    name: 'Heavy Haulage Trucks',
-    desc: 'Multi-axle cargo freight & container haulage trucks',
-    count: '2 Available',
-  },
-  {
-    key: 'PICKUP_VAN',
-    name: 'Pickups & Mini Trucks',
-    desc: 'Commercial 1.2T to 2T pickup vans and mini trucks',
-    count: '2 Available',
-  },
-  {
-    key: 'TIPPER',
-    name: 'Mining & Heavy Tippers',
-    desc: 'Construction dumpers and 16-cum box tippers',
-    count: '1 Available',
-  },
-];
-
-const ODISHA_HUBS = [
-  { name: 'All Odisha', value: '' },
-  { name: 'Bhubaneswar', value: 'Khordha' },
-  { name: 'Cuttack', value: 'Cuttack' },
-  { name: 'Puri', value: 'Puri' },
-  { name: 'Rourkela', value: 'Sundargarh' },
-  { name: 'Sambalpur', value: 'Sambalpur' },
-  { name: 'Berhampur', value: 'Ganjam' },
-  { name: 'Balasore', value: 'Balasore' },
-  { name: 'Jharsuguda', value: 'Jharsuguda' },
-];
 
 export default async function HomePage() {
   // Fetch featured listings
@@ -135,7 +67,7 @@ export default async function HomePage() {
     where: {
       publicationStatus: PublicationStatus.PUBLISHED,
     },
-    take: 8,
+    take: 6,
     orderBy: { publishedAt: 'desc' },
     include: {
       vehicle: {
@@ -159,225 +91,83 @@ export default async function HomePage() {
   });
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900">
+    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-amber-400 selection:text-slate-950">
       <Navbar />
 
-      <main className="flex-1">
-        {/* HERO SECTION - SIMPLIFIED & MODERN */}
-        <section className="relative bg-gradient-to-br from-[#061e47] via-[#0B3C8C] to-[#123977] text-white py-14 lg:py-20 overflow-hidden">
-          {/* Subtle geometric pattern overlay */}
-          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px]" />
+      <main className="flex-1 space-y-16 lg:space-y-24">
+        {/* 1. HERO SECTION WITH INTERACTIVE SEARCH */}
+        <section className="relative bg-gradient-to-br from-[#061e47] via-[#0B3C8C] to-[#123977] text-white pt-14 pb-20 lg:pt-20 lg:pb-28 overflow-hidden">
+          {/* Subtle grid pattern background */}
+          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none" />
+
+          {/* Glowing ambient light */}
+          <div className="absolute top-1/4 -right-20 w-96 h-96 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 -left-20 w-96 h-96 bg-blue-400/15 rounded-full blur-3xl pointer-events-none" />
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="max-w-3xl">
-              {/* Trust Badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-semibold text-amber-300 mb-5">
+            <div className="max-w-4xl">
+              {/* Trust Tag */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-semibold text-amber-300 mb-6 shadow-sm">
                 <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Odisha’s Verified Commercial Bus & Truck Marketplace</span>
+                <span>Odisha’s Premier Managed Commercial Fleet Marketplace</span>
               </div>
 
-              <h1 className="text-3xl sm:text-5xl lg:text-5xl font-black tracking-tight leading-tight mb-4">
+              {/* Main Headline */}
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.15] mb-5 text-white">
                 Buy & Sell Verified Commercial Buses & Trucks in Odisha
               </h1>
 
-              <p className="text-base sm:text-lg text-blue-100/90 mb-8 leading-relaxed max-w-2xl">
-                Every vehicle features verified RTO documents, a certified 14-point mechanical report, and transparent seller-approved pricing across all 30 districts.
+              {/* Subheading */}
+              <p className="text-base sm:text-lg text-blue-100/90 mb-8 leading-relaxed max-w-2xl font-normal">
+                Every vehicle comes with verified RTO documents, a certified 14-point physical inspection report, and seller-approved pricing across all 30 districts.
               </p>
 
-              {/* SEARCH PANEL WITH TABS */}
-              <div className="bg-white p-3 sm:p-4 rounded-2xl shadow-2xl text-slate-900 max-w-2xl">
-                {/* Vehicle Quick Switcher Tabs */}
-                <div className="flex items-center gap-2 pb-3 mb-3 border-b border-slate-100 text-xs font-bold">
-                  <Link
-                    href="/buses"
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 text-[#0B3C8C] hover:bg-blue-100 transition-colors"
-                  >
-                    <Bus className="w-3.5 h-3.5" />
-                    <span>Commercial Buses</span>
-                  </Link>
-                  <Link
-                    href="/buses?category=TRUCK"
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
-                  >
-                    <Truck className="w-3.5 h-3.5" />
-                    <span>Trucks & Pickups</span>
-                  </Link>
-                  <Link
-                    href="/sell-your-bus"
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-amber-700 bg-amber-50 hover:bg-amber-100 ml-auto transition-colors font-extrabold"
-                  >
-                    <span>Sell Any Vehicle →</span>
-                  </Link>
-                </div>
+              {/* Interactive Hero Search Component */}
+              <HeroSearch />
 
-                {/* Search Form */}
-                <form action="/buses" method="GET" className="flex flex-col sm:flex-row gap-2.5 items-stretch">
-                  <div className="flex-1 flex items-center gap-2.5 px-3 py-2 bg-slate-50 rounded-xl border border-slate-200">
-                    <Search className="w-4 h-4 text-slate-400 shrink-0" />
-                    <input
-                      type="text"
-                      name="q"
-                      placeholder="Search make, model, category, city..."
-                      className="w-full bg-transparent text-slate-900 placeholder-slate-400 text-xs sm:text-sm font-medium focus:outline-none"
-                    />
-                  </div>
-
-                  <div className="flex gap-2">
-                    <select
-                      name="district"
-                      className="bg-slate-50 text-slate-700 text-xs font-semibold px-3 py-2 rounded-xl border border-slate-200 focus:outline-none min-h-[42px]"
-                    >
-                      {ODISHA_HUBS.map((hub) => (
-                        <option key={hub.name} value={hub.value}>
-                          {hub.name}
-                        </option>
-                      ))}
-                    </select>
-
-                    <button
-                      type="submit"
-                      className="px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs sm:text-sm rounded-xl transition-all shadow-md flex items-center justify-center gap-2 min-h-[42px] whitespace-nowrap"
-                    >
-                      <span>Find Vehicles</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
-                  </div>
-                </form>
-              </div>
-
-              {/* Trust Indicators */}
-              <div className="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-white/10 text-left max-w-2xl">
+              {/* Trust Indicators Stats */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-10 pt-8 border-t border-white/15 text-left">
                 <div>
-                  <div className="text-xl sm:text-2xl font-black text-amber-400">100% Verified</div>
-                  <div className="text-[11px] text-blue-200 mt-0.5">RTO Documents Validated</div>
+                  <div className="text-2xl sm:text-3xl font-black text-amber-400">100%</div>
+                  <div className="text-xs text-blue-200 mt-0.5">RTO Verified Papers</div>
                 </div>
                 <div>
-                  <div className="text-xl sm:text-2xl font-black text-amber-400">14-Point</div>
-                  <div className="text-[11px] text-blue-200 mt-0.5">Certified Mechanical Report</div>
+                  <div className="text-2xl sm:text-3xl font-black text-amber-400">14-Point</div>
+                  <div className="text-xs text-blue-200 mt-0.5">Mechanical Inspection</div>
                 </div>
                 <div>
-                  <div className="text-xl sm:text-2xl font-black text-amber-400">30 Districts</div>
-                  <div className="text-[11px] text-blue-200 mt-0.5">Odisha Fleet Coverage</div>
+                  <div className="text-2xl sm:text-3xl font-black text-amber-400">₹0</div>
+                  <div className="text-xs text-blue-200 mt-0.5">Buyer Brokerage Fee</div>
+                </div>
+                <div>
+                  <div className="text-2xl sm:text-3xl font-black text-amber-400">30</div>
+                  <div className="text-xs text-blue-200 mt-0.5">Odisha Districts Covered</div>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 1. COMMERCIAL BUS CATEGORIES - THEME-STYLED WITH CUSTOM SVG ICONS */}
-        <section className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
-            <div>
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-100 text-[#0B3C8C] text-[11px] font-black uppercase tracking-wider mb-2">
-                Passenger Transport Fleet
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-black text-slate-900">
-                Commercial Bus Categories
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                Browse verified AC sleepers, stage carriage route buses, school transit, and coaches.
-              </p>
-            </div>
-            <Link
-              href="/buses"
-              className="inline-flex items-center gap-1 text-xs font-bold text-[#0B3C8C] hover:text-[#082a63]"
-            >
-              <span>Explore All Buses</span>
-              <ChevronRight className="w-4 h-4" />
-            </Link>
+        {/* 2. FLEET CATEGORY EXPLORER */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-6">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#0B3C8C]">
+              Commercial Categories
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">
+              Explore Commercial Inventory by Category
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-500 mt-1">
+              From interstate luxury AC sleepers and city route buses to multi-axle freight trucks and delivery pickups.
+            </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-            {BUS_CATEGORIES.map((cat) => (
-              <Link
-                key={cat.key}
-                href={`/buses?category=${cat.key}`}
-                className="group p-5 rounded-2xl bg-white border border-slate-200/90 hover:border-[#0B3C8C] hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
-              >
-                <div>
-                  {/* Custom Theme Icon Badge */}
-                  <div className="w-13 h-13 rounded-xl bg-blue-50 text-[#0B3C8C] border border-blue-100 group-hover:bg-[#0B3C8C] group-hover:text-amber-400 group-hover:border-[#0B3C8C] flex items-center justify-center transition-all duration-300 mb-4 shadow-xs">
-                    <CategoryIcon category={cat.key} className="w-7 h-7" />
-                  </div>
-                  <h3 className="font-bold text-sm text-slate-900 group-hover:text-[#0B3C8C] transition-colors leading-snug">
-                    {cat.name}
-                  </h3>
-                  <p className="text-[11px] text-slate-500 mt-1.5 line-clamp-2 leading-relaxed">
-                    {cat.desc}
-                  </p>
-                </div>
-
-                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-[#0B3C8C]">
-                  <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 group-hover:bg-blue-50 group-hover:text-[#0B3C8C] transition-colors">
-                    {cat.count}
-                  </span>
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0B3C8C] group-hover:translate-x-0.5 transition-all" />
-                </div>
-              </Link>
-            ))}
-          </div>
+          <CategoryExplorer />
         </section>
 
-        {/* 2. TRUCKS, PICKUPS & COMMERCIAL CARGO CATEGORIES */}
-        <section className="py-12 bg-slate-100/70 border-y border-slate-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
-              <div>
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-100 text-amber-900 text-[11px] font-black uppercase tracking-wider mb-2">
-                  Freight & Commercial Logistics
-                </div>
-                <h2 className="text-2xl sm:text-3xl font-black text-slate-900">
-                  Trucks, Pickups & Heavy Commercials
-                </h2>
-                <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                  Verified heavy cargo freight trucks, mini trucks (Chhota Hathi), pickup vans, and mining tippers.
-                </p>
-              </div>
-              <Link
-                href="/buses?category=TRUCK"
-                className="inline-flex items-center gap-1 text-xs font-bold text-[#0B3C8C] hover:text-[#082a63]"
-              >
-                <span>View All Commercial Trucks</span>
-                <ChevronRight className="w-4 h-4" />
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              {TRUCK_CATEGORIES.map((cat) => (
-                <Link
-                  key={cat.key}
-                  href={`/buses?category=${cat.key}`}
-                  className="group p-6 rounded-2xl bg-white border border-slate-200 hover:border-[#0B3C8C] hover:shadow-xl transition-all duration-300 flex items-start gap-4"
-                >
-                  <div className="w-14 h-14 rounded-2xl bg-amber-50 text-[#0B3C8C] border border-amber-200/60 group-hover:bg-[#0B3C8C] group-hover:text-amber-400 group-hover:border-[#0B3C8C] flex items-center justify-center shrink-0 transition-all duration-300 shadow-xs">
-                    <CategoryIcon category={cat.key} className="w-8 h-8" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-bold text-base text-slate-900 group-hover:text-[#0B3C8C] transition-colors">
-                        {cat.name}
-                      </h3>
-                      <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700">
-                        {cat.count}
-                      </span>
-                    </div>
-                    <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-                      {cat.desc}
-                    </p>
-                    <div className="mt-3 flex items-center gap-1 text-xs font-bold text-[#0B3C8C]">
-                      <span>Browse Inventory</span>
-                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* FEATURED VERIFIED INVENTORY */}
+        {/* 3. FEATURED VERIFIED INVENTORY */}
         {featuredListings.length > 0 && (
-          <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
               <div>
                 <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-900 text-xs font-black uppercase tracking-wider mb-2">
@@ -385,14 +175,19 @@ export default async function HomePage() {
                   <span>Inspected & Certified</span>
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-black text-slate-900">
-                  Featured Commercial Inventory
+                  Featured Commercial Vehicles
                 </h2>
+                <p className="text-xs sm:text-sm text-slate-500 mt-1">
+                  Ready-to-operate commercial fleet with verified documentation and recent service logs.
+                </p>
               </div>
+
               <Link
-                href="/buses?sort=newest"
-                className="text-xs sm:text-sm font-bold text-[#0B3C8C] hover:underline"
+                href="/buses"
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-colors shrink-0"
               >
-                View Full Inventory →
+                <span>Browse All 29 Vehicles</span>
+                <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
 
@@ -425,200 +220,190 @@ export default async function HomePage() {
           </section>
         )}
 
-        {/* 14-POINT INSPECTION & TRUST STANDARDS - STREAMLINED */}
-        <section className="py-16 bg-[#072458] text-white">
+        {/* 4. INSTANT VEHICLE VALUATION TEASER FOR SELLERS */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <QuickValuationTeaser />
+        </section>
+
+        {/* 5. INTERACTIVE 14-POINT INSPECTION EXPLORER */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <InspectionExplorer />
+        </section>
+
+        {/* 6. COMPARISON: WHY SELLANYBUS VS UNORGANIZED CLASSIFIEDS */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <WhySellAnyBusComparison />
+        </section>
+
+        {/* 7. HOW IT WORKS - DUAL TRACK (BUYER & SELLER) */}
+        <section className="bg-slate-100/80 py-16 border-y border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-3xl mx-auto mb-12">
-              <span className="text-xs font-bold uppercase tracking-wider text-amber-400">
-                The SellAnyBus Guarantee
+            <div className="text-center max-w-2xl mx-auto mb-12">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#0B3C8C]">
+                Step-by-Step Transparency
               </span>
-              <h2 className="text-3xl sm:text-4xl font-black mt-2">
-                Certified 14-Point Mechanical Inspection
+              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-2">
+                How SellAnyBus.in Works
               </h2>
-              <p className="text-sm sm:text-base text-blue-200 mt-3 leading-relaxed">
-                Before any commercial bus or truck is published, our qualified field inspectors physically evaluate all critical systems on-site.
+              <p className="text-xs sm:text-sm text-slate-500 mt-1">
+                A simple, guided experience designed to eliminate friction and eliminate intermediary fraud.
               </p>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3 text-center">
-              {[
-                { label: 'Engine & Turbo', note: 'Compression & blowby check' },
-                { label: 'Transmission', note: 'Gear mesh & clutch plate' },
-                { label: 'Dual Air Brakes', note: 'ABS & retarder test' },
-                { label: 'Chassis Frame', note: 'Ladder weld integrity' },
-                { label: 'Radial Tyres', note: 'Tread depth measurement' },
-                { label: 'AC & Electrical', note: 'Compressor & alternator' },
-                { label: 'RTO Documents', note: 'RC, Permit, Tax & Fitness' },
-              ].map((item, idx) => (
-                <div
-                  key={item.label}
-                  className="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-amber-400/50 transition-colors"
-                >
-                  <div className="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center mx-auto mb-2 text-xs">
-                    ✓
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Buyer Steps */}
+              <div className="p-8 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-5">
+                <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+                  <div className="flex items-center gap-2.5">
+                    <span className="w-8 h-8 rounded-xl bg-blue-100 text-[#0B3C8C] flex items-center justify-center font-black text-sm">
+                      1
+                    </span>
+                    <h3 className="font-black text-base text-slate-900">For Fleet Buyers</h3>
                   </div>
-                  <h4 className="font-bold text-xs text-white">{item.label}</h4>
-                  <p className="text-[10px] text-blue-200/80 mt-1">{item.note}</p>
+                  <span className="text-xs font-bold text-[#0B3C8C] bg-blue-50 px-2.5 py-1 rounded-full">
+                    Zero Brokerage
+                  </span>
                 </div>
-              ))}
-            </div>
 
-            <div className="mt-10 text-center">
-              <Link
-                href="/inspection-services"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs shadow-md transition-colors"
-              >
-                <span>Read Full Inspection Standards</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-        </section>
+                <div className="space-y-4 text-xs sm:text-sm text-slate-600">
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="text-slate-900 block mb-0.5">1. Filter Verified Stock:</strong>
+                      Search by category, sleeper/seater configuration, fuel type, or district.
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="text-slate-900 block mb-0.5">2. Check Inspection Scores:</strong>
+                      Review certified ratings for engine, transmission, air brakes, and chassis.
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="text-slate-900 block mb-0.5">3. Guided Viewing & Transfer:</strong>
+                      Meet the seller at our designated Odisha inspection hub for viewing and paperwork.
+                    </div>
+                  </div>
+                </div>
 
-        {/* HOW IT WORKS - BUYER & SELLER SIMPLIFIED */}
-        <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#0B3C8C]">
-              Transparent Process
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-2">
-              How SellAnyBus Works in Odisha
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* For Buyers */}
-            <div className="p-8 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-5">
-              <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-                <h3 className="font-black text-lg text-slate-900 flex items-center gap-2">
-                  <span className="w-8 h-8 rounded-xl bg-blue-100 text-[#0B3C8C] flex items-center justify-center text-sm">
-                    1
-                  </span>
-                  For Fleet Buyers & Operators
-                </h3>
-                <span className="text-xs font-bold text-[#0B3C8C] bg-blue-50 px-2.5 py-1 rounded-full">
-                  Zero Buyer Commission
-                </span>
+                <div className="pt-2">
+                  <Link
+                    href="/buses"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0B3C8C] hover:underline"
+                  >
+                    <span>Browse All Vehicles</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
               </div>
-              <ul className="space-y-4 text-xs sm:text-sm text-slate-600">
-                <li className="flex items-start gap-3">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span>
-                    <strong>Explore Verified Inventory:</strong> Filter by seating, sleeper configuration, route category, or Odisha district.
-                  </span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span>
-                    <strong>Inspect Genuine Reports:</strong> Review verified RTO status (RC, Fitness, Permit, Tax) and mechanical ratings before visiting.
-                  </span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span>
-                    <strong>Direct Viewing & Escrow:</strong> Schedule an on-site physical inspection facilitated directly by our local Odisha advisors.
-                  </span>
-                </li>
-              </ul>
-              <div className="pt-4">
-                <Link
-                  href="/buses"
-                  className="inline-flex items-center gap-2 text-xs font-black text-[#0B3C8C] hover:underline"
-                >
-                  Browse Available Commercial Fleet →
-                </Link>
-              </div>
-            </div>
 
-            {/* For Sellers */}
-            <div className="p-8 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-5">
-              <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-                <h3 className="font-black text-lg text-slate-900 flex items-center gap-2">
-                  <span className="w-8 h-8 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center text-sm">
-                    2
+              {/* Seller Steps */}
+              <div className="p-8 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-5">
+                <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+                  <div className="flex items-center gap-2.5">
+                    <span className="w-8 h-8 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center font-black text-sm">
+                      2
+                    </span>
+                    <h3 className="font-black text-base text-slate-900">For Bus & Truck Sellers</h3>
+                  </div>
+                  <span className="text-xs font-bold text-amber-900 bg-amber-50 px-2.5 py-1 rounded-full">
+                    Guaranteed Fair Price
                   </span>
-                  For Bus & Truck Owners
-                </h3>
-                <span className="text-xs font-bold text-amber-900 bg-amber-50 px-2.5 py-1 rounded-full">
-                  Guaranteed Fair Value
-                </span>
-              </div>
-              <ul className="space-y-4 text-xs sm:text-sm text-slate-600">
-                <li className="flex items-start gap-3">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span>
-                    <strong>Easy OTP Submission:</strong> Upload your bus or truck registration, specifications, and photos in 5 minutes.
-                  </span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span>
-                    <strong>Free On-Site Inspection:</strong> Our authorized Odisha inspectors verify engine, chassis, and RTO paperwork.
-                  </span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span>
-                    <strong>You Approve the Price:</strong> The vehicle is only advertised after you approve the recommended valuation.
-                  </span>
-                </li>
-              </ul>
-              <div className="pt-4">
-                <Link
-                  href="/seller/vehicles/new"
-                  className="inline-flex items-center gap-2 text-xs font-black text-amber-800 hover:underline"
-                >
-                  List Your Commercial Vehicle Free →
-                </Link>
+                </div>
+
+                <div className="space-y-4 text-xs sm:text-sm text-slate-600">
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="text-slate-900 block mb-0.5">1. 5-Minute OTP Listing:</strong>
+                      Enter registration number and basic specifications via mobile OTP login.
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="text-slate-900 block mb-0.5">2. On-Site Inspection:</strong>
+                      Our qualified Odisha field engineers evaluate vehicle condition and RTO validity.
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="text-slate-900 block mb-0.5">3. You Approve the Price:</strong>
+                      Vehicle is only published after you explicitly consent to the recommended valuation.
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-2">
+                  <Link
+                    href="/seller/vehicles/new"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-800 hover:underline"
+                  >
+                    <span>List Vehicle Free</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* TESTIMONIALS & FAQ ACCORDION */}
-        <section className="py-16 bg-white border-t border-slate-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              {/* Testimonials */}
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-[#0B3C8C]">
-                  Trusted Across Odisha
-                </span>
-                <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-2 mb-6">
-                  What Fleet Operators Say
-                </h2>
-                <div className="space-y-4">
-                  {testimonials.map((t) => (
-                    <div
-                      key={t.id}
-                      className="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed"
-                    >
-                      <p className="italic text-slate-800 mb-3">&ldquo;{t.body}&rdquo;</p>
-                      <div className="font-bold text-slate-900">{t.title}</div>
+        {/* 8. TESTIMONIALS & FAQ */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Operator Feedback */}
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-[#0B3C8C]">
+                Real Operator Feedback
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-2 mb-6">
+                What Odisha Fleet Owners Say
+              </h2>
+              <div className="space-y-4">
+                {testimonials.map((t) => (
+                  <div
+                    key={t.id}
+                    className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs text-xs sm:text-sm text-slate-700 leading-relaxed"
+                  >
+                    <div className="flex items-center gap-1 text-amber-400 mb-2">
+                      {'★'.repeat(5)}
                     </div>
-                  ))}
-                </div>
+                    <p className="italic text-slate-800 mb-3">&ldquo;{t.body}&rdquo;</p>
+                    <div className="font-bold text-slate-900">{t.title}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* FAQs Accordion */}
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-[#0B3C8C]">
+                Help & Clarifications
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-2 mb-6">
+                Frequently Asked Questions
+              </h2>
+              <div className="space-y-3">
+                {faqs.map((f) => (
+                  <div
+                    key={f.id}
+                    className="p-5 rounded-2xl border border-slate-200 bg-white shadow-xs text-xs"
+                  >
+                    <h4 className="font-bold text-slate-900 text-sm mb-1.5">{f.title}</h4>
+                    <p className="text-slate-600 leading-relaxed">{f.body}</p>
+                  </div>
+                ))}
               </div>
 
-              {/* FAQs */}
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-[#0B3C8C]">
-                  Got Questions?
-                </span>
-                <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-2 mb-6">
-                  Frequently Asked Questions
-                </h2>
-                <div className="space-y-3">
-                  {faqs.map((f) => (
-                    <div
-                      key={f.id}
-                      className="p-4 rounded-xl border border-slate-200 bg-slate-50 text-xs"
-                    >
-                      <h4 className="font-bold text-slate-900 text-sm mb-1">{f.title}</h4>
-                      <p className="text-slate-600 leading-relaxed">{f.body}</p>
-                    </div>
-                  ))}
-                </div>
+              <div className="mt-6 p-4 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-between text-xs text-[#0B3C8C]">
+                <span>Have a specific RTO permit or vehicle valuation query?</span>
+                <Link href="/contact" className="font-bold hover:underline">
+                  Contact Support →
+                </Link>
               </div>
             </div>
           </div>
