@@ -115,19 +115,17 @@ export default async function HomePage() {
     },
   });
 
-  // Fetch testimonials & FAQs from ContentItem table
-  const [testimonials, faqs] = await Promise.all([
-    prisma.contentItem.findMany({
-      where: { type: 'TESTIMONIAL', active: true },
-      orderBy: { order: 'asc' },
-      take: 3,
-    }),
-    prisma.contentItem.findMany({
-      where: { type: 'FAQ', active: true },
-      orderBy: { order: 'asc' },
-      take: 5,
-    }),
-  ]);
+  // Fetch testimonials & FAQs from ContentItem table sequentially
+  const testimonials = await prisma.contentItem.findMany({
+    where: { type: 'TESTIMONIAL', active: true },
+    orderBy: { order: 'asc' },
+    take: 3,
+  });
+  const faqs = await prisma.contentItem.findMany({
+    where: { type: 'FAQ', active: true },
+    orderBy: { order: 'asc' },
+    take: 5,
+  });
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">

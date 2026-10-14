@@ -50,9 +50,8 @@ export async function GET(req: Request) {
 
     where.vehicle = vehicleWhere;
 
-    const [total, listings] = await Promise.all([
-      prisma.listing.count({ where }),
-      prisma.listing.findMany({
+    const total = await prisma.listing.count({ where });
+    const listings = await prisma.listing.findMany({
         where,
         skip,
         take: pageSize,
@@ -96,8 +95,7 @@ export async function GET(req: Request) {
             },
           },
         },
-      }),
-    ]);
+      });
 
     return NextResponse.json({
       success: true,

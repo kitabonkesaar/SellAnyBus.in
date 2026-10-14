@@ -138,22 +138,20 @@ export default async function BusesSearchPage({ searchParams }: SearchPageProps)
     orderBy = { vehicle: { manufactureYear: 'desc' } };
   }
 
-  const [totalCount, listings] = await Promise.all([
-    prisma.listing.count({ where }),
-    prisma.listing.findMany({
-      where,
-      skip,
-      take: pageSize,
-      orderBy,
-      include: {
-        vehicle: {
-          include: {
-            media: { where: { isPrimary: true }, take: 1 },
-          },
+  const totalCount = await prisma.listing.count({ where });
+  const listings = await prisma.listing.findMany({
+    where,
+    skip,
+    take: pageSize,
+    orderBy,
+    include: {
+      vehicle: {
+        include: {
+          media: { where: { isPrimary: true }, take: 1 },
         },
       },
-    }),
-  ]);
+    },
+  });
 
   const totalPages = Math.ceil(totalCount / pageSize);
 
