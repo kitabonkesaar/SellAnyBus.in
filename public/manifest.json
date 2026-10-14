@@ -1,0 +1,16 @@
+{
+  "name": "SellAnyBus.in - Odisha Verified Bus Marketplace",
+  "short_name": "SellAnyBus",
+  "description": "Verified Used Commercial Buses & Coaches Marketplace for Odisha",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0B3C8C",
+  "theme_color": "#0B3C8C",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "brand": {
+    "name": "SellAnyBus.in",
+    "tagline": "Odisha's Verified Used Bus & Coach Marketplace",
+    "verifiedBadge": "Verified by SellAnyBus"
+  },
+  "nav": {
+    "home": "Home",
+    "browseBuses": "Browse Buses",
+    "sellYourBus": "Sell Your Bus",
+    "howItWorks": "How It Works",
+    "inspectionServices": "Inspection Services",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Login / Register",
+    "dashboard": "Dashboard",
+    "admin": "Admin Console",
+    "logout": "Logout"
+  },
+  "home": {
+    "heroTitle": "Buy & Sell Verified Used Buses in Odisha with Total Confidence",
+    "heroSubtitle": "RTO verified documents, 14-point mechanical inspection, transparent pricing, and direct dealer & operator reach across all 30 districts.",
+    "searchPlaceholder": "Search by make, model, bus type, or district...",
+    "searchBtn": "Search Buses",
+    "sellBtn": "Sell Your Bus",
+    "categoriesTitle": "Popular Bus Categories",
+    "featuredTitle": "Verified Featured Buses",
+    "recentTitle": "Recently Listed Inventory",
+    "howItWorksTitle": "How SellAnyBus Works",
+    "inspectionTitle": "Comprehensive 14-Point Bus Inspection",
+    "whySellWithUs": "Why Operators & Fleet Owners Trust Us",
+    "testimonialsTitle": "What Fleet Owners Say",
+    "faqTitle": "Frequently Asked Questions"
+  },
+  "categories": {
+    "AC_SLEEPER": "AC Sleeper Coach",
+    "SEATER": "Express / Route Seater",
+    "SCHOOL_BUS": "School & College Bus",
+    "STAFF_BUS": "Staff & Corporate Bus",
+    "TOURIST_COACH": "Luxury Tourist Coach",
+    "MINI_BUS": "Mini Bus / Traveller"
+  },
+  "enquiry": {
+    "title": "Enquire About This Bus",
+    "fullName": "Your Full Name",
+    "phone": "Mobile Number (+91)",
+    "intendedUse": "Intended Bus Application",
+    "timeline": "When do you plan to buy?",
+    "message": "Additional Questions / Requirements",
+    "consent": "I agree to receive inspection details, price updates, and communications from SellAnyBus in accordance with the Privacy Policy.",
+    "submitBtn": "Send Verified Enquiry",
+    "success": "Your enquiry has been received! Our verified sales advisor will contact you shortly."
+  },
+  "seller": {
+    "title": "Sell Your Commercial Bus",
+    "step1": "Category & Registration",
+    "step2": "Make, Model & Year",
+    "step3": "Specifications & Condition",
+    "step4": "Ownership & Documents Info",
+    "step5": "Expected Asking Price",
+    "step6": "Photos & Documents Upload",
+    "step7": "Review & Submit",
+    "approvedPriceNotice": "You must approve the recommended price before this listing can be published."
+  }
+}

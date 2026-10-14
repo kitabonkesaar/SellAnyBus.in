@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: #f8fafc;
+    --foreground: #0f172a;
+    --card: #ffffff;
+    --card-foreground: #0f172a;
+    --popover: #ffffff;
+    --popover-foreground: #0f172a;
+    --primary: #0B3C8C;
+    --primary-foreground: #ffffff;
+    --secondary: #e2e8f0;
+    --secondary-foreground: #0f172a;
+    --muted: #f1f5f9;
+    --muted-foreground: #64748b;
+    --accent: #F59E0B;
+    --accent-foreground: #ffffff;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: #e2e8f0;
+    --input: #e2e8f0;
+    --ring: #0B3C8C;
+    --radius: 0.5rem;
+    --verified: #16A34A;
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom commercial vehicle branding classes */
+.bg-brand-blue {
+  background-color: #0B3C8C;
+}
+.text-brand-blue {
+  color: #0B3C8C;
+}
+.border-brand-blue {
+  border-color: #0B3C8C;
+}
+.bg-brand-amber {
+  background-color: #F59E0B;
+}
+.text-brand-amber {
+  color: #D97706;
+}
+.bg-brand-green {
+  background-color: #16A34A;
+}
+.text-brand-green {
+  color: #16A34A;
+}
+
+/* Accessibility and minimum touch target size */
+button, a, input, select, textarea {
+  touch-action: manipulation;
+}
