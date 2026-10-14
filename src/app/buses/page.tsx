@@ -242,19 +242,26 @@ export default async function BusesSearchPage({ searchParams }: SearchPageProps)
 
                 {/* Category */}
                 <div>
-                  <label className="block font-bold text-slate-800 mb-1.5">Bus Category</label>
+                  <label className="block font-bold text-slate-800 mb-1.5">Vehicle Category</label>
                   <select
                     name="category"
                     defaultValue={params.category || ''}
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-[#0B3C8C]"
                   >
-                    <option value="">All Categories</option>
-                    <option value="AC_SLEEPER">AC Sleeper Coach</option>
-                    <option value="SEATER">Express Route Seater</option>
-                    <option value="SCHOOL_BUS">School & College Bus</option>
-                    <option value="STAFF_BUS">Staff & Industrial Bus</option>
-                    <option value="TOURIST_COACH">Luxury Tourist Coach</option>
-                    <option value="MINI_BUS">Mini Bus / Traveller</option>
+                    <option value="">All Commercial Categories</option>
+                    <optgroup label="Commercial Buses & Coaches">
+                      <option value="AC_SLEEPER">AC Sleeper Coach</option>
+                      <option value="SEATER">Express Route Seater</option>
+                      <option value="SCHOOL_BUS">School & College Bus</option>
+                      <option value="STAFF_BUS">Staff & Industrial Bus</option>
+                      <option value="TOURIST_COACH">Luxury Tourist Coach</option>
+                      <option value="MINI_BUS">Mini Bus / Traveller</option>
+                    </optgroup>
+                    <optgroup label="Trucks & Commercial Vehicles">
+                      <option value="TRUCK">Heavy Cargo Haulage Truck</option>
+                      <option value="PICKUP_VAN">Commercial Pickup Van / Mini Truck</option>
+                      <option value="TIPPER">Mining & Construction Tipper</option>
+                    </optgroup>
                   </select>
                 </div>
 

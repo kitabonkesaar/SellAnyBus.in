@@ -46,6 +46,9 @@ enum BusCategory {
   STAFF_BUS
   TOURIST_COACH
   MINI_BUS
+  TRUCK
+  PICKUP_VAN
+  TIPPER
 }
 
 enum FuelType {

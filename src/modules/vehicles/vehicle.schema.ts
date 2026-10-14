@@ -25,7 +25,7 @@ export const VehicleStep2Schema = z.object({
 });
 
 export const VehicleStep3Schema = z.object({
-  seatingCapacity: z.number().int().min(10).max(100),
+  seatingCapacity: z.number().int().min(2).max(100),
   fuelType: z.nativeEnum(FuelType).default(FuelType.DIESEL),
   transmission: z.nativeEnum(Transmission).default(Transmission.MANUAL),
   odometerKm: z.number().int().min(0).max(2000000),

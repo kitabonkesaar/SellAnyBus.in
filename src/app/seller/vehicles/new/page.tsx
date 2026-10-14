@@ -320,18 +320,25 @@ export default function NewVehiclePage() {
                 </h3>
 
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">Bus Category *</label>
+                  <label className="block font-bold text-slate-700 mb-1">Commercial Category *</label>
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl"
                   >
-                    <option value="AC_SLEEPER">AC Sleeper Coach</option>
-                    <option value="SEATER">Express Route Seater</option>
-                    <option value="SCHOOL_BUS">School & College Bus</option>
-                    <option value="STAFF_BUS">Staff & Corporate Bus</option>
-                    <option value="TOURIST_COACH">Luxury Tourist Coach</option>
-                    <option value="MINI_BUS">Mini Bus / Traveller</option>
+                    <optgroup label="Commercial Buses & Coaches">
+                      <option value="AC_SLEEPER">AC Sleeper Coach</option>
+                      <option value="SEATER">Express Route Seater</option>
+                      <option value="SCHOOL_BUS">School & College Bus</option>
+                      <option value="STAFF_BUS">Staff & Corporate Bus</option>
+                      <option value="TOURIST_COACH">Luxury Tourist Coach</option>
+                      <option value="MINI_BUS">Mini Bus / Traveller</option>
+                    </optgroup>
+                    <optgroup label="Commercial Trucks & Vehicles">
+                      <option value="TRUCK">Heavy Cargo Haulage Truck</option>
+                      <option value="PICKUP_VAN">Commercial Pickup Van / Mini Truck</option>
+                      <option value="TIPPER">Mining & Construction Tipper</option>
+                    </optgroup>
                   </select>
                 </div>
 
