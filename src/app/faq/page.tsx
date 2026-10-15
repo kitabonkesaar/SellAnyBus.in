@@ -6,8 +6,25 @@ import { Footer } from '@/components/layout/Footer';
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
-  title: 'Frequently Asked Questions | SellAnyBus.in',
-  description: 'Common questions about buying, selling, inspecting, and transferring used buses in Odisha.',
+  title: 'Frequently Asked Questions (FAQ) | Commercial Buses Odisha | SellAnyBus.in',
+  description:
+    'Got questions about buying, selling, inspecting, or RTO permit transfer for used commercial buses in Odisha? Find expert answers on SellAnyBus.in FAQ.',
+  keywords: [
+    'used bus faq odisha',
+    'how to transfer bus permit odisha',
+    'commercial bus valuation questions',
+    'sellanybus faq',
+  ],
+  alternates: {
+    canonical: 'https://sellanybus.in/faq',
+  },
+  openGraph: {
+    title: 'SellAnyBus.in FAQ | Commercial Bus Buying & Selling in Odisha',
+    description: 'Expert answers on commercial bus valuations, 14-point mechanical inspections, RTO NOC transfers, and buyer protection.',
+    locale: 'en_IN',
+    type: 'website',
+    url: 'https://sellanybus.in/faq',
+  },
 };
 
 export default async function FaqPage() {
@@ -16,9 +33,27 @@ export default async function FaqPage() {
     orderBy: { order: 'asc' },
   });
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.title,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: f.body,
+      },
+    })),
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
       <Navbar />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
       <main className="flex-1 py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

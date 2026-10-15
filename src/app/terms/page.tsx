@@ -4,7 +4,15 @@ import { Footer } from '@/components/layout/Footer';
 
 export const metadata = {
   title: 'Terms of Use | SellAnyBus.in',
-  description: 'Terms of service and listing conditions for commercial bus buyers and sellers on SellAnyBus.in.',
+  description: 'Terms of service and listing conditions for commercial bus buyers and sellers on SellAnyBus.in in Odisha.',
+  alternates: {
+    canonical: 'https://sellanybus.in/terms',
+  },
+  openGraph: {
+    title: 'Terms of Use | SellAnyBus.in',
+    description: 'Terms of service and listing conditions for commercial bus buyers and sellers on SellAnyBus.in.',
+    url: 'https://sellanybus.in/terms',
+  },
 };
 
 export default function TermsPage() {

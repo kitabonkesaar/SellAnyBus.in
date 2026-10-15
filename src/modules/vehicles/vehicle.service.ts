@@ -1,12 +1,19 @@
 import prisma from '../core/db';
-import { VehicleStatus, DocumentType, PublicationStatus } from '@prisma/client';
+import {
+  VehicleStatus,
+  PublicationStatus,
+  BusCategory,
+  FuelType,
+  Transmission,
+  AcType,
+} from '@prisma/client';
 import { getRequiredDocuments } from './vehicle.schema';
 import { encryptSensitiveField } from '../core/crypto.service';
 import { AuditService } from '../audit/audit.service';
 
 export interface VehicleDraftInput {
   id?: string;
-  category?: any;
+  category?: BusCategory;
   bodyType?: string;
   make?: string;
   model?: string;
@@ -14,12 +21,12 @@ export interface VehicleDraftInput {
   registrationYear?: number;
   registrationNumber?: string;
   chassisNumber?: string;
-  fuelType?: any;
-  transmission?: any;
+  fuelType?: FuelType;
+  transmission?: Transmission;
   odometerKm?: number;
   seatingCapacity?: number;
   sleeperConfig?: string | null;
-  acType?: any;
+  acType?: AcType;
   colour?: string;
   ownersCount?: number;
   permitType?: string | null;

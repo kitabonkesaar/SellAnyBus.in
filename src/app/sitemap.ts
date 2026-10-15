@@ -27,6 +27,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: route === '' ? 1.0 : 0.8,
   }));
 
+  const ODISHA_DISTRICTS = [
+    'Khordha', 'Cuttack', 'Balasore', 'Puri', 'Sundargarh',
+    'Sambalpur', 'Ganjam', 'Jharsuguda', 'Mayurbhanj', 'Angul',
+    'Bargarh', 'Bhadrak', 'Bolangir', 'Boudh', 'Deogarh',
+    'Dhenkanal', 'Gajapati', 'Jagatsinghpur', 'Jajpur', 'Kalahandi',
+    'Kandhamal', 'Kendrapara', 'Keonjhar', 'Koraput', 'Malkangiri',
+    'Nabarangpur', 'Nayagarh', 'Nuapada', 'Rayagada', 'Subarnapur',
+  ];
+
+  const districtRoutes = ODISHA_DISTRICTS.map((district) => ({
+    url: `${baseUrl}/buses/in/${encodeURIComponent(district)}`,
+    lastModified: new Date(),
+    changeFrequency: 'daily' as const,
+    priority: 0.85,
+  }));
+
   // Published Listings
   const publishedListings = await prisma.listing.findMany({
     where: { publicationStatus: PublicationStatus.PUBLISHED },
@@ -40,5 +56,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.9,
   }));
 
-  return [...staticRoutes, ...listingRoutes];
+  return [...staticRoutes, ...districtRoutes, ...listingRoutes];
 }

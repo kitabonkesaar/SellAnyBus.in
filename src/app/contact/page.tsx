@@ -4,8 +4,25 @@ import { Footer } from '@/components/layout/Footer';
 import { Phone, Mail, MapPin, MessageSquare, Clock } from 'lucide-react';
 
 export const metadata = {
-  title: 'Contact SellAnyBus.in | Commercial Bus Support Odisha',
-  description: 'Reach out to SellAnyBus.in support team in Bhubaneswar for bus inspection requests, buyer enquiries, and operator partnerships.',
+  title: 'Contact SellAnyBus.in | Commercial Bus Support Bhubaneswar, Odisha',
+  description:
+    'Contact SellAnyBus.in operations desk in Bhubaneswar, Odisha. Speak to commercial fleet advisors, schedule on-site depot inspections, or request RTO permit guidance.',
+  keywords: [
+    'sellanybus contact',
+    'commercial bus dealer bhubaneswar phone',
+    'used bus inspection request odisha',
+    'bus rto assistance odisha phone',
+  ],
+  alternates: {
+    canonical: 'https://sellanybus.in/contact',
+  },
+  openGraph: {
+    title: 'Contact SellAnyBus.in | Commercial Fleet Advisors in Odisha',
+    description: 'Reach our transport operations desk in Bhubaneswar, Odisha for vehicle listings, physical inspections, and RTO transfers.',
+    locale: 'en_IN',
+    type: 'website',
+    url: 'https://sellanybus.in/contact',
+  },
 };
 
 export default function ContactPage() {

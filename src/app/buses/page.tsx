@@ -11,9 +11,28 @@ import { Metadata } from 'next';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Search Used Commercial Buses in Odisha | SellAnyBus.in',
+  title: 'Search Used Commercial Buses & Coaches in Odisha | SellAnyBus.in',
   description:
-    'Browse verified used commercial buses across all 30 districts of Odisha. Filter by category, seating capacity, AC/non-AC, price, and make.',
+    'Browse verified used commercial buses across all 30 districts of Odisha. Filter by category (AC Sleeper, Route Seater, School Bus), make, district, and price. 100% RTO verified papers.',
+  keywords: [
+    'buy used bus in odisha',
+    'used buses for sale bhubaneswar',
+    'commercial bus cuttack',
+    'route bus sambalpur',
+    'ashok leyland bus odisha',
+    'tata school bus sale',
+    'ac sleeper bus for sale',
+  ],
+  alternates: {
+    canonical: 'https://sellanybus.in/buses',
+  },
+  openGraph: {
+    title: 'Search Used Commercial Buses & Coaches in Odisha | SellAnyBus.in',
+    description: 'Browse verified used commercial buses across all 30 districts of Odisha with certified 14-point mechanical inspections and RTO clearance.',
+    locale: 'en_IN',
+    type: 'website',
+    url: 'https://sellanybus.in/buses',
+  },
 };
 
 const ODISHA_DISTRICTS = [

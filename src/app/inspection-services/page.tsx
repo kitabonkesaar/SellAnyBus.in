@@ -5,8 +5,25 @@ import { Footer } from '@/components/layout/Footer';
 import { Wrench, CheckCircle2, ShieldCheck, ArrowRight } from 'lucide-react';
 
 export const metadata = {
-  title: 'Commercial Bus 14-Point Inspection Standard | SellAnyBus.in',
-  description: 'Understand the rigorous 14-point mechanical and safety inspection conducted on every bus listed on SellAnyBus.in in Odisha.',
+  title: '14-Point Commercial Bus Mechanical Inspection Standard | SellAnyBus.in',
+  description:
+    'Explore our rigorous 14-point mechanical and safety inspection protocol for used commercial buses in Odisha: engine blow-by, turbo, air brake build time, suspension, and chassis integrity.',
+  keywords: [
+    'commercial bus inspection odisha',
+    'bus mechanical test odisha',
+    'bus fitness check bhubaneswar',
+    'used bus valuation inspection',
+  ],
+  alternates: {
+    canonical: 'https://sellanybus.in/inspection-services',
+  },
+  openGraph: {
+    title: '14-Point Commercial Bus Inspection Standard | SellAnyBus.in',
+    description: 'Certified commercial mechanics evaluate engine blow-by, turbo, dual-circuit air brakes, and chassis alignment before publishing any bus.',
+    locale: 'en_IN',
+    type: 'website',
+    url: 'https://sellanybus.in/inspection-services',
+  },
 };
 
 const CHECKLIST_ITEMS = [

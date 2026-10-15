@@ -4,8 +4,16 @@ import { Footer } from '@/components/layout/Footer';
 import { ShieldCheck, Mail, Phone, MapPin, Clock } from 'lucide-react';
 
 export const metadata = {
-  title: 'Grievance Redressal Officer | SellAnyBus.in',
-  description: 'Designated Grievance Officer details under the Digital Personal Data Protection Act, 2023.',
+  title: 'Grievance Redressal Officer | DPDP Act 2023 | SellAnyBus.in',
+  description: 'Designated Grievance Redressal Officer contact and nodal information under the Digital Personal Data Protection Act, 2023 for SellAnyBus.in.',
+  alternates: {
+    canonical: 'https://sellanybus.in/grievance',
+  },
+  openGraph: {
+    title: 'Grievance Redressal Officer | SellAnyBus.in',
+    description: 'Designated Grievance Officer details under the Digital Personal Data Protection Act, 2023.',
+    url: 'https://sellanybus.in/grievance',
+  },
 };
 
 export default function GrievancePage() {

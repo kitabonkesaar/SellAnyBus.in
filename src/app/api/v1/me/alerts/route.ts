@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server';
 import { getCurrentUser } from '@/modules/auth/guard';
 import prisma from '@/modules/core/db';
+import { Prisma } from '@prisma/client';
 
 export async function POST(req: Request) {
   try {
     const user = await getCurrentUser();
     let phone: string | null = null;
-    let filters: any = {};
+    let filters: Record<string, unknown> = {};
 
     const contentType = req.headers.get('content-type') || '';
     if (contentType.includes('application/x-www-form-urlencoded')) {
@@ -37,7 +38,7 @@ export async function POST(req: Request) {
       data: {
         userId: user?.userId || null,
         phone: phone ? phone.replace(/\D/g, '').slice(-10) : null,
-        filters: filters || {},
+        filters: (filters || {}) as Prisma.InputJsonValue,
       },
     });
 

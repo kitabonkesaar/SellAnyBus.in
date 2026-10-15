@@ -5,8 +5,16 @@ import { Footer } from '@/components/layout/Footer';
 import { ShieldCheck } from 'lucide-react';
 
 export const metadata = {
-  title: 'Privacy Policy | SellAnyBus.in',
-  description: 'SellAnyBus.in privacy policy complying with the Indian Digital Personal Data Protection Act, 2023.',
+  title: 'Privacy Policy | DPDP Act 2023 Compliance | SellAnyBus.in',
+  description: 'SellAnyBus.in privacy policy complying with the Indian Digital Personal Data Protection Act, 2023. Strict redaction of Aadhaar, RC, and phone numbers.',
+  alternates: {
+    canonical: 'https://sellanybus.in/privacy',
+  },
+  openGraph: {
+    title: 'Privacy Policy | DPDP Act 2023 Compliance | SellAnyBus.in',
+    description: 'SellAnyBus.in privacy policy complying with the Indian Digital Personal Data Protection Act, 2023.',
+    url: 'https://sellanybus.in/privacy',
+  },
 };
 
 export default function PrivacyPage() {

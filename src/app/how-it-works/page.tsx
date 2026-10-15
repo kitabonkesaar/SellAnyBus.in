@@ -5,8 +5,25 @@ import { Footer } from '@/components/layout/Footer';
 import { ShieldCheck, FileCheck2, Wrench, CheckCircle2, ArrowRight } from 'lucide-react';
 
 export const metadata = {
-  title: 'How It Works | SellAnyBus.in',
-  description: 'Learn how SellAnyBus verifies buses, inspects mechanical health, and mediates transparent commercial bus transactions in Odisha.',
+  title: 'How It Works | Verified Bus Marketplace in Odisha | SellAnyBus.in',
+  description:
+    'Learn how SellAnyBus verifies commercial buses, executes 14-point mechanical diagnostic inspections, audits RTO papers, and mediates zero-brokerage deals across Odisha.',
+  keywords: [
+    'how to buy used bus odisha',
+    'commercial bus inspection odisha',
+    'bus rto verification process',
+    'sellanybus process',
+  ],
+  alternates: {
+    canonical: 'https://sellanybus.in/how-it-works',
+  },
+  openGraph: {
+    title: 'How SellAnyBus.in Works | Verified Used Bus Buying & Selling in Odisha',
+    description: 'Managed commercial bus marketplace process: RTO document check, 14-point mechanical inspection, seller-approved pricing, and guided handoff.',
+    locale: 'en_IN',
+    type: 'website',
+    url: 'https://sellanybus.in/how-it-works',
+  },
 };
 
 export default function HowItWorksPage() {

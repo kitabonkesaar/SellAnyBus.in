@@ -9,24 +9,17 @@ import { CategoryExplorer } from '@/components/marketplace/CategoryExplorer';
 import { InspectionExplorer } from '@/components/marketplace/InspectionExplorer';
 import { WhySellAnyBusComparison } from '@/components/marketplace/WhySellAnyBusComparison';
 import { QuickValuationTeaser } from '@/components/marketplace/QuickValuationTeaser';
+import { CommercialFinanceEstimator } from '@/components/marketplace/CommercialFinanceEstimator';
+import { BuyerProtectionGrid } from '@/components/marketplace/BuyerProtectionGrid';
+import { RegionalHubsExplorer } from '@/components/marketplace/RegionalHubsExplorer';
+import { FleetConciergeBanner } from '@/components/marketplace/FleetConciergeBanner';
 import { PublicationStatus } from '@prisma/client';
 import {
   ShieldCheck,
   CheckCircle2,
-  Award,
-  ArrowRight,
   ChevronRight,
-  TrendingUp,
-  FileCheck2,
-  PhoneCall,
-  MessageSquare,
-  HelpCircle,
-  Truck,
-  Bus,
+  ArrowRight,
   Sparkles,
-  MapPin,
-  Clock,
-  ThumbsUp,
 } from 'lucide-react';
 import { Metadata } from 'next';
 
@@ -36,11 +29,32 @@ export const metadata: Metadata = {
   title: 'SellAnyBus.in | Odisha’s #1 Verified Used Commercial Bus & Truck Marketplace',
   description:
     'Buy and sell verified used buses, trucks, and commercial vehicles in Odisha. 14-point mechanical inspection, RTO document checks, and seller-approved pricing across all 30 districts.',
+  keywords: [
+    'sell bus in odisha',
+    'buy used bus odisha',
+    'used commercial buses odisha',
+    'sell commercial vehicle bhubaneswar',
+    'used bus for sale cuttack',
+    'ashok leyland bus for sale',
+    'tata marcopolo bus resale',
+    'school bus for sale odisha',
+    'commercial bus valuation odisha',
+    'rto verified bus marketplace',
+  ],
+  alternates: {
+    canonical: 'https://sellanybus.in',
+  },
   openGraph: {
-    title: 'SellAnyBus.in - Verified Commercial Buses & Trucks in Odisha',
-    description: 'Verified AC Sleepers, Route Seaters, School Buses, Cargo Trucks, and Pickups in Odisha.',
+    title: 'SellAnyBus.in - Odisha’s #1 Verified Commercial Bus & Truck Marketplace',
+    description: 'Verified AC Sleepers, Route Seaters, School Buses, Cargo Trucks, and Pickups in Odisha. Certified 14-point inspection and RTO document clearance.',
     locale: 'en_IN',
     type: 'website',
+    url: 'https://sellanybus.in',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'SellAnyBus.in | Verified Commercial Buses in Odisha',
+    description: 'Buy and sell commercial buses across all 30 districts of Odisha with zero buyer brokerage.',
   },
 };
 
@@ -62,12 +76,13 @@ export default async function HomePage() {
     },
   });
 
-  // Fetch recently listed vehicles
+  // Fetch recently verified listings
   const recentListings = await prisma.listing.findMany({
     where: {
       publicationStatus: PublicationStatus.PUBLISHED,
+      featured: false,
     },
-    take: 6,
+    take: 3,
     orderBy: { publishedAt: 'desc' },
     include: {
       vehicle: {
@@ -78,7 +93,7 @@ export default async function HomePage() {
     },
   });
 
-  // Fetch testimonials & FAQs from ContentItem table sequentially
+  // Fetch testimonials & FAQs from ContentItem table
   const testimonials = await prisma.contentItem.findMany({
     where: { type: 'TESTIMONIAL', active: true },
     orderBy: { order: 'asc' },
@@ -90,9 +105,69 @@ export default async function HomePage() {
     take: 5,
   });
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebSite',
+        name: 'SellAnyBus.in',
+        url: 'https://sellanybus.in',
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: {
+            '@type': 'EntryPoint',
+            urlTemplate: 'https://sellanybus.in/buses?q={search_term_string}',
+          },
+          'query-input': 'required name=search_term_string',
+        },
+      },
+      {
+        '@type': 'AutomotiveBusiness',
+        name: 'SellAnyBus.in',
+        url: 'https://sellanybus.in',
+        telephone: '+919876543210',
+        priceRange: '₹₹₹',
+        description: 'Odisha’s verified used commercial bus and coach marketplace with 14-point mechanical inspection and RTO document verification.',
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: 'Baramunda ISBT Corridor',
+          addressLocality: 'Bhubaneswar',
+          addressRegion: 'Odisha',
+          postalCode: '751003',
+          addressCountry: 'IN',
+        },
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: 20.2961,
+          longitude: 85.8245,
+        },
+        areaServed: {
+          '@type': 'State',
+          name: 'Odisha',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: faqs.map((f) => ({
+          '@type': 'Question',
+          name: f.title,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: f.body,
+          },
+        })),
+      },
+    ],
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-amber-400 selection:text-slate-950">
       <Navbar />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
       <main className="flex-1 space-y-16 lg:space-y-24">
         {/* 1. HERO SECTION WITH INTERACTIVE SEARCH */}
@@ -165,7 +240,12 @@ export default async function HomePage() {
           <CategoryExplorer />
         </section>
 
-        {/* 3. FEATURED VERIFIED INVENTORY */}
+        {/* 3. BUYER PROTECTION 4-WAY COMMERCIAL GUARANTEE */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <BuyerProtectionGrid />
+        </section>
+
+        {/* 4. FEATURED VERIFIED INVENTORY */}
         {featuredListings.length > 0 && (
           <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
@@ -186,7 +266,7 @@ export default async function HomePage() {
                 href="/buses"
                 className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-colors shrink-0"
               >
-                <span>Browse All 29 Vehicles</span>
+                <span>Browse All 24 Vehicles</span>
                 <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
@@ -220,22 +300,92 @@ export default async function HomePage() {
           </section>
         )}
 
-        {/* 4. INSTANT VEHICLE VALUATION TEASER FOR SELLERS */}
+        {/* 5. INSTANT VEHICLE VALUATION TEASER FOR SELLERS */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <QuickValuationTeaser />
         </section>
 
-        {/* 5. INTERACTIVE 14-POINT INSPECTION EXPLORER */}
+        {/* 6. COMMERCIAL FINANCE & EMI ESTIMATOR */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <CommercialFinanceEstimator />
+        </section>
+
+        {/* 7. RECENT VERIFIED ARRIVALS */}
+        {recentListings.length > 0 && (
+          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+              <div>
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-100 text-[#0B3C8C] text-xs font-black uppercase tracking-wider mb-2">
+                  <Sparkles className="w-3.5 h-3.5 text-[#0B3C8C]" />
+                  <span>Fresh Market Stock</span>
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-black text-slate-900">
+                  Recent Verified Arrivals
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-500 mt-1">
+                  Newly certified buses recently cleared by our mechanical and RTO verification desk.
+                </p>
+              </div>
+
+              <Link
+                href="/buses"
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-colors shrink-0"
+              >
+                <span>View Full Inventory</span>
+                <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {recentListings.map((item) => (
+                <BusCard
+                  key={item.id}
+                  id={item.id}
+                  slug={item.slug}
+                  make={item.vehicle.make}
+                  model={item.vehicle.model}
+                  manufactureYear={item.vehicle.manufactureYear}
+                  askingPrice={item.askingPrice}
+                  odometerKm={item.vehicle.odometerKm}
+                  seatingCapacity={item.vehicle.seatingCapacity}
+                  sleeperConfig={item.vehicle.sleeperConfig}
+                  fuelType={item.vehicle.fuelType}
+                  acType={item.vehicle.acType}
+                  district={item.vehicle.district}
+                  city={item.vehicle.city}
+                  featured={item.featured}
+                  primaryImageUrl={
+                    item.vehicle.media[0]
+                      ? `/uploads/${item.vehicle.media[0].storageKey}`
+                      : undefined
+                  }
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* 8. INTERACTIVE 14-POINT INSPECTION EXPLORER */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <InspectionExplorer />
         </section>
 
-        {/* 6. COMPARISON: WHY SELLANYBUS VS UNORGANIZED CLASSIFIEDS */}
+        {/* 9. REGIONAL ODISHA TRANSIT HUBS */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <RegionalHubsExplorer />
+        </section>
+
+        {/* 10. COMPARISON: WHY SELLANYBUS VS UNORGANIZED CLASSIFIEDS */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <WhySellAnyBusComparison />
         </section>
 
-        {/* 7. HOW IT WORKS - DUAL TRACK (BUYER & SELLER) */}
+        {/* 11. BULK FLEET LIQUIDATION CONCIERGE */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <FleetConciergeBanner />
+        </section>
+
+        {/* 12. HOW IT WORKS - DUAL TRACK (BUYER & SELLER) */}
         <section className="bg-slate-100/80 py-16 border-y border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-2xl mx-auto mb-12">
@@ -352,7 +502,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* 8. TESTIMONIALS & FAQ */}
+        {/* 13. TESTIMONIALS & FAQ */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Operator Feedback */}

@@ -4,8 +4,25 @@ import { Footer } from '@/components/layout/Footer';
 import { ShieldCheck, Target, HeartHandshake } from 'lucide-react';
 
 export const metadata = {
-  title: 'About SellAnyBus.in | Odisha Commercial Bus Marketplace',
-  description: 'SellAnyBus.in is Odisha’s dedicated managed marketplace for commercial buses, connecting operators with verified inventory.',
+  title: 'About SellAnyBus.in | Odisha’s #1 Commercial Bus Marketplace',
+  description:
+    'Learn about SellAnyBus.in: our mission to organize pre-owned commercial passenger transport in Odisha through certified 14-point mechanical audits, RTO paper clearance, and zero-brokerage trading.',
+  keywords: [
+    'about sellanybus',
+    'commercial bus marketplace odisha',
+    'used bus company bhubaneswar',
+    'odisha fleet operators platform',
+  ],
+  alternates: {
+    canonical: 'https://sellanybus.in/about',
+  },
+  openGraph: {
+    title: 'About SellAnyBus.in | Odisha’s Managed Commercial Bus Marketplace',
+    description: 'Eliminating broker fraud and odometer tampering in Odisha commercial bus trading through engineering inspections and legal title verification.',
+    locale: 'en_IN',
+    type: 'website',
+    url: 'https://sellanybus.in/about',
+  },
 };
 
 export default function AboutPage() {
