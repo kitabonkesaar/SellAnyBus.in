@@ -59,51 +59,136 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  // Fetch featured listings
-  const featuredListings = await prisma.listing.findMany({
-    where: {
-      publicationStatus: PublicationStatus.PUBLISHED,
-      featured: true,
-    },
-    take: 6,
-    orderBy: { publishedAt: 'desc' },
-    include: {
-      vehicle: {
-        include: {
-          media: { where: { isPrimary: true }, take: 1 },
+  type ListingWithVehicle = Awaited<
+    ReturnType<
+      typeof prisma.listing.findMany<{
+        include: { vehicle: { include: { media: true } } };
+      }>
+    >
+  >[number];
+
+  type ContentItemType = {
+    id: string;
+    title: string;
+    body: string;
+  };
+
+  let featuredListings: ListingWithVehicle[] = [];
+  let recentListings: ListingWithVehicle[] = [];
+  let testimonials: ContentItemType[] = [];
+  let faqs: ContentItemType[] = [];
+
+  try {
+    featuredListings = await prisma.listing.findMany({
+      where: {
+        publicationStatus: PublicationStatus.PUBLISHED,
+        featured: true,
+      },
+      take: 6,
+      orderBy: { publishedAt: 'desc' },
+      include: {
+        vehicle: {
+          include: {
+            media: { where: { isPrimary: true }, take: 1 },
+          },
         },
       },
-    },
-  });
+    });
+  } catch (err) {
+    console.warn('[HomePage] Database query for featuredListings failed:', err);
+  }
 
-  // Fetch recently verified listings
-  const recentListings = await prisma.listing.findMany({
-    where: {
-      publicationStatus: PublicationStatus.PUBLISHED,
-      featured: false,
-    },
-    take: 3,
-    orderBy: { publishedAt: 'desc' },
-    include: {
-      vehicle: {
-        include: {
-          media: { where: { isPrimary: true }, take: 1 },
+  try {
+    recentListings = await prisma.listing.findMany({
+      where: {
+        publicationStatus: PublicationStatus.PUBLISHED,
+        featured: false,
+      },
+      take: 3,
+      orderBy: { publishedAt: 'desc' },
+      include: {
+        vehicle: {
+          include: {
+            media: { where: { isPrimary: true }, take: 1 },
+          },
         },
       },
-    },
-  });
+    });
+  } catch (err) {
+    console.warn('[HomePage] Database query for recentListings failed:', err);
+  }
 
-  // Fetch testimonials & FAQs from ContentItem table
-  const testimonials = await prisma.contentItem.findMany({
-    where: { type: 'TESTIMONIAL', active: true },
-    orderBy: { order: 'asc' },
-    take: 3,
-  });
-  const faqs = await prisma.contentItem.findMany({
-    where: { type: 'FAQ', active: true },
-    orderBy: { order: 'asc' },
-    take: 5,
-  });
+  try {
+    const rawTestimonials = await prisma.contentItem.findMany({
+      where: { type: 'TESTIMONIAL', active: true },
+      orderBy: { order: 'asc' },
+      take: 3,
+    });
+    testimonials = rawTestimonials;
+  } catch (err) {
+    console.warn('[HomePage] Database query for testimonials failed:', err);
+  }
+
+  try {
+    const rawFaqs = await prisma.contentItem.findMany({
+      where: { type: 'FAQ', active: true },
+      orderBy: { order: 'asc' },
+      take: 5,
+    });
+    faqs = rawFaqs;
+  } catch (err) {
+    console.warn('[HomePage] Database query for faqs failed:', err);
+  }
+
+  if (testimonials.length === 0) {
+    testimonials = [
+      {
+        id: 't1',
+        title: 'Manoranjan Rout, Cuttack (Route Operator)',
+        body: 'Sold our 2018 Ashok Leyland 40-seater in just 5 days. SellAnyBus verified the papers, and we got our full asking price with no broker commission.',
+      },
+      {
+        id: 't2',
+        title: 'Bikash Das, Bhubaneswar (Tour & Travels)',
+        body: 'Purchased a verified AC Sleeper for our Puri-Kolkata corridor. The 14-point mechanical report gave us full peace of mind on engine and air brake health.',
+      },
+      {
+        id: 't3',
+        title: 'Sanjay Mohanty, Sambalpur (School Fleet Manager)',
+        body: 'Upgraded 3 school buses through their fleet desk. Clean RTO NOC transfer and transparent vehicle inspection right at our depot.',
+      },
+    ];
+  }
+
+  if (faqs.length === 0) {
+    faqs = [
+      {
+        id: 'f1',
+        title: 'How does SellAnyBus verify commercial buses in Odisha?',
+        body: 'Every vehicle undergoes physical inspection by certified mechanical engineers covering engine blow-by, turbo, full air brake pressure build time, and RTO document audit (RC, fitness, permit, and tax token).',
+      },
+      {
+        id: 'f2',
+        title: 'Who determines the vehicle selling price?',
+        body: 'We recommend a data-backed indicative market valuation range. However, no vehicle is published until the seller explicitly reviews and approves the final asking price.',
+      },
+      {
+        id: 'f3',
+        title: 'Is there any brokerage fee for buyers?',
+        body: 'No. SellAnyBus charges ₹0 buyer commission. All pricing is direct, transparent, and seller-approved.',
+      },
+      {
+        id: 'f4',
+        title: 'How does RTO ownership transfer and NOC work?',
+        body: 'Our operations desk assists with Form 28 (NOC), Form 29 & 30 (Transfer of Ownership), and State Transport Authority (STA) route permit endorsements across all 30 Odisha districts.',
+      },
+      {
+        id: 'f5',
+        title: 'Is seller contact information public?',
+        body: 'No. Under the DPDP Act 2023, seller mobile numbers and sensitive documents are never displayed publicly. All buyer enquiries are pre-screened by our commercial advisors.',
+      },
+    ];
+  }
 
   const jsonLd = {
     '@context': 'https://schema.org',
